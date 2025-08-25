@@ -125,6 +125,10 @@
     }
     .modal.show { display: flex; }
     .modal-content {
+      position: absolute;        /* прибиваем внутрь .modal */
+      bottom: 0;                 /* у нижней границы */
+      left: 0;
+      right: 0;
       background: #fff;
       border-radius: 20px 20px 0 0;
       padding: 20px;
@@ -137,9 +141,10 @@
       transform: translateY(100%);
       transition: transform 0.3s ease-out;
       display: flex;
-      flex-direction: column;     /* чтобы содержимое было ровно внутри */
+      flex-direction: column;
       justify-content: flex-start;
     }
+
     .modal.show .modal-content {
       transform: translateY(0);
     }
@@ -277,6 +282,7 @@
   </script>
 </body>
 </html>
+
 
 
 
