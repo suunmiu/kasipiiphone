@@ -22,29 +22,26 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background-color: #fff;
       color: #000;
-      font-size: 18px; /* 🔹 шрифт побольше */
     }
-
     header {
       background-color: #f9f9f9;
-      padding: 14px 0;
+      padding: 12px 0;
       text-align: center;
-      font-size: 18px;
-      font-weight: 700; /* 🔹 жирнее */
+      font-size: 17px;
+      font-weight: 600;
       border-bottom: 0.5px solid #ccc;
       position: relative;
     }
-
     .back-arrow {
       position: absolute;
       left: 16px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 22px;
+      font-size: 20px;
+      font-weight: 400;
       color: #007aff;
       cursor: pointer;
     }
-
     .tabs {
       display: flex;
       justify-content: center;
@@ -53,29 +50,26 @@
       background: #f2f2f7;
       border-radius: 10px;
       padding: 4px;
-      font-weight: 700; /* 🔹 жирнее вкладки */
     }
-
     .tab {
       flex: 1;
       text-align: center;
       padding: 6px 0;
-      font-size: 17px;
+      font-size: 15px;
+      font-weight: 500;
       border-radius: 8px;
       cursor: pointer;
       color: #000;
     }
-
     .tab.active {
       background: #fff;
+      font-weight: 600;
     }
-
     .content {
       padding: 20px;
       background-color: #fff;
       min-height: calc(100vh - 120px);
     }
-
     .photo-container {
       width: 100%;
       height: 400px;
@@ -85,54 +79,41 @@
       border-radius: 12px;
       margin-bottom: 10px;
     }
-
     .photo {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       object-fit: contain;
     }
-
     .btn {
-      display: flex; /* 🔹 иконка + текст */
-      align-items: center;
-      justify-content: flex-start;
-      gap: 10px;
+      display: block;
       width: 90%;
       margin: 10px auto;
-      padding: 16px;
+      padding: 14px;
       border-radius: 12px;
-      font-size: 18px;
-      font-weight: 700; /* 🔹 жирный текст на кнопках */
-      text-align: left;
+      font-size: 17px;
+      font-weight: 500;
+      text-align: center;
       text-decoration: none;
     }
-
-    .btn img {
-      width: 22px;
-      height: 22px;
-    }
-
     .btn-primary { background: #007aff; color: #fff; }
     .btn-outline { border: 1px solid #c7c7cc; color: #007aff; background: #fff; }
-
     input[type="file"], input[type="text"], input[type="date"] {
       display: block;
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 10px;
       margin-bottom: 14px;
       box-sizing: border-box;
     }
-
     .info-item { margin-bottom: 14px; }
-    .info-label { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-    .info-value { font-size: 17px; display:flex; justify-content:space-between; align-items:center; }
+    .info-label { font-size: 13px; color: #8e8e93; margin-bottom: 4px; }
+    .info-value { font-size: 16px; display:flex; justify-content:space-between; align-items:center; }
     .copy-icon { width:20px; height:20px; cursor:pointer; opacity:0.6; }
 
-    /* 🔹 Модалка снизу на половину экрана */
+    /* Стили модалки снизу */
     .modal {
       display: none;
       position: fixed;
@@ -142,15 +123,12 @@
       background: rgba(0,0,0,0.4);
       justify-content: flex-end;
     }
-
     .modal.show { display: flex; }
-
     .modal-content {
       background:#fff;
       border-radius:20px 20px 0 0;
       padding:20px;
       width:100%;
-      height: 50%; /* 🔹 половина экрана */
       max-width:500px;
       margin:0 auto;
       box-shadow:0 -4px 20px rgba(0,0,0,0.2);
@@ -158,11 +136,9 @@
       transform: translateY(100%);
       transition: transform 0.3s ease-out;
     }
-
     .modal.show .modal-content {
       transform: translateY(0);
     }
-
     .close {
       position:absolute;
       right:15px;
@@ -193,12 +169,8 @@
       <input type="file" id="uploadPhoto" accept="image/*">
     </div>
     <div id="docButtons" style="display:none;">
-      <a href="#" class="btn btn-primary" onclick="openModal()">
-        <img src="icon_show.png" alt="">Предъявить документ
-      </a>
-      <a href="#" class="btn btn-outline">
-        <img src="icon_send.png" alt="">Отправить документ
-      </a>
+      <a href="#" class="btn btn-primary" onclick="openModal()">Предъявить документ</a>
+      <a href="#" class="btn btn-outline">Отправить документ</a>
     </div>
   </div>
 
@@ -211,9 +183,7 @@
       <div class="info-item"><div class="info-label">Номер документа</div><input type="text" id="docnum"></div>
       <div class="info-item"><div class="info-label">Дата выдачи</div><input type="date" id="issued"></div>
       <div class="info-item"><div class="info-label">Срок действия</div><input type="date" id="expiry"></div>
-      <a href="#" class="btn btn-outline" onclick="finalize(); return false;">
-        <img src="icon_save.png" alt="">Сохранить
-      </a>
+      <a href="#" class="btn btn-outline" onclick="finalize(); return false;">Сохранить</a>
     </form>
     <div id="finalInfo" style="display:none;"></div>
   </div>
@@ -222,13 +192,13 @@
   <div id="modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">×</span>
-      <div style="text-align:left; font-weight:600; font-size:20px; margin-bottom:20px;">Удостоверение личности</div>
-      <div style="text-align:center; font-size:16px; margin-bottom:20px;">Покажите QR-код сотруднику</div>
+      <div style="text-align:left; font-weight:600; font-size:18px; margin-bottom:20px;">Удостоверение личности</div>
+      <div style="text-align:center; font-size:14px; margin-bottom:20px;">Покажите QR-код сотруднику</div>
       <div style="text-align:center; margin-bottom:15px;">
         <img src="QR.png" alt="QR Code" style="width:150px; height:150px; border-radius:10px;">
       </div>
-      <div style="text-align:center; font-size:16px; margin-bottom:10px;">или скажите код</div>
-      <div style="text-align:center; font-weight:bold; font-size:28px; letter-spacing:2px;">803558</div>
+      <div style="text-align:center; font-size:14px; margin-bottom:10px;">или скажите код</div>
+      <div style="text-align:center; font-weight:bold; font-size:26px; letter-spacing:2px;">803558</div>
     </div>
   </div>
 
@@ -284,17 +254,24 @@
         <div class="info-item"><div class="info-label">Номер документа</div><div class="info-value">${docnum}</div></div>
         <div class="info-item"><div class="info-label">Дата выдачи</div><div class="info-value">${issued}</div></div>
         <div class="info-item"><div class="info-label">Срок действия</div><div class="info-value">${expiry}</div></div>
-        <a href="#" class="btn btn-outline"><img src="icon_send.png" alt="">Отправить реквизиты</a>
+        <a href="#" class="btn btn-outline">Отправить реквизиты</a>
       `;
     }
 
-    function openModal() { document.getElementById("modal").classList.add("show"); }
-    function closeModal() { document.getElementById("modal").classList.remove("show"); }
+    function openModal() {
+      document.getElementById("modal").classList.add("show");
+    }
+    function closeModal() {
+      document.getElementById("modal").classList.remove("show");
+    }
     window.onclick = function(event) {
       const modal = document.getElementById("modal");
-      if (event.target === modal) closeModal();
+      if (event.target === modal) {
+        closeModal();
+      }
     }
   </script>
 </body>
 </html>
+
 
