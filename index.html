@@ -86,15 +86,23 @@
       object-fit: contain;
     }
     .btn {
-      display: block;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       width: 90%;
       margin: 10px auto;
       padding: 14px;
       border-radius: 12px;
       font-size: 17px;
       font-weight: 500;
-      text-align: center;
+      text-align: left;
       text-decoration: none;
+      box-sizing: border-box;
+    }
+    .btn img {
+      width: 20px;
+      height: 20px;
+      margin-left: 8px;
     }
     .btn-primary { background: #007aff; color: #fff; }
     .btn-outline { border: 1px solid #c7c7cc; color: #007aff; background: #fff; }
@@ -130,11 +138,13 @@
       padding:20px;
       width:100%;
       max-width:500px;
+      height: 50%; /* половина экрана */
       margin:0 auto;
       box-shadow:0 -4px 20px rgba(0,0,0,0.2);
       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       transform: translateY(100%);
       transition: transform 0.3s ease-out;
+      position: relative;
     }
     .modal.show .modal-content {
       transform: translateY(0);
@@ -169,8 +179,12 @@
       <input type="file" id="uploadPhoto" accept="image/*">
     </div>
     <div id="docButtons" style="display:none;">
-      <a href="#" class="btn btn-primary" onclick="openModal()">Предъявить документ</a>
-      <a href="#" class="btn btn-outline">Отправить документ</a>
+      <a href="#" class="btn btn-primary" onclick="openModal()">
+        Предъявить документ <img src="imgbin.png" alt="">
+      </a>
+      <a href="#" class="btn btn-outline">
+        Отправить документ <img src="icon.png" alt="">
+      </a>
     </div>
   </div>
 
@@ -183,7 +197,9 @@
       <div class="info-item"><div class="info-label">Номер документа</div><input type="text" id="docnum"></div>
       <div class="info-item"><div class="info-label">Дата выдачи</div><input type="date" id="issued"></div>
       <div class="info-item"><div class="info-label">Срок действия</div><input type="date" id="expiry"></div>
-      <a href="#" class="btn btn-outline" onclick="finalize(); return false;">Сохранить</a>
+      <a href="#" class="btn btn-outline" onclick="finalize(); return false;">
+        Сохранить <img src="icon.png" alt="">
+      </a>
     </form>
     <div id="finalInfo" style="display:none;"></div>
   </div>
@@ -254,7 +270,7 @@
         <div class="info-item"><div class="info-label">Номер документа</div><div class="info-value">${docnum}</div></div>
         <div class="info-item"><div class="info-label">Дата выдачи</div><div class="info-value">${issued}</div></div>
         <div class="info-item"><div class="info-label">Срок действия</div><div class="info-value">${expiry}</div></div>
-        <a href="#" class="btn btn-outline">Отправить реквизиты</a>
+        <a href="#" class="btn btn-outline">Отправить реквизиты <img src="imgbin.png" alt=""></a>
       `;
     }
 
@@ -273,5 +289,7 @@
   </script>
 </body>
 </html>
+
+
 
 
