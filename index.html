@@ -1,274 +1,95 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Удостоверение личности</title>
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="KaspiID">
-  <meta name="theme-color" content="#ffffff">
-
-  <!-- Иконка -->
-  <link rel="apple-touch-icon" href="kaspi_icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="kaspi_icon.png">
-
   <style>
     body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #fff;
-      color: #000;
+      font-family: Arial, sans-serif;
+      font-size: 18px; /* 🔹 увеличил шрифт */
+      margin: 20px;
     }
 
-    header {
-      background-color: #fff;
-      padding: 14px;
-      font-weight: bold;
-      text-align: center;
-      font-size: 16px;
-      border-bottom: 1px solid #ddd;
-      position: relative;
-    }
-
-    .back-arrow {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .tabs {
-      position: relative;
-      display: flex;
-      background: #ecebeb;
-      border-radius: 10px;
-      padding: 4px;
-      width: 340px;
-      margin: 20px auto;
-    }
-
-    .tab {
-      flex: 1;
-      padding: 5px 0;
-      text-align: center;
-      z-index: 2;
-      cursor: pointer;
-      color: #333;
-      font-weight: 500;
-      font-size: 14px;
-    }
-
-    .tab.active { color: black; }
-
-    .tab-selector {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: calc(50% - 2px);
-      height: calc(100% - 4px);
-      background: white;
-      border-radius: 7px;
-      transition: transform 0.3s ease;
-      z-index: 1;
-    }
-
-    .content {
-      padding: 0;
-      background-color: #fff;
-      min-height: calc(100vh - 140px);
-    }
-
-    .photo-container {
-      width: 100%;
-      height: 400px;
-      overflow: hidden;
-      touch-action: none;
-      position: relative;
-    }
-
-    .photo {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: contain;
+    h1, h2 {
+      font-weight: bold; /* 🔹 заголовки жирные */
     }
 
     .btn {
-      display: block;
-      width: 85%;
-      margin: 12px auto;
-      padding: 18px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 16px;
-      text-align: center;
-      text-decoration: none;
+      display: flex;
+      justify-content: space-between; /* 🔹 текст слева, иконка справа */
+      align-items: center;
+      font-weight: bold; /* 🔹 кнопки жирные */
+      font-size: 18px;
+      padding: 10px 15px;
+      margin: 8px 0;
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
     }
-    .btn-primary { background-color: #2c74e0; color: white; }
-    .btn-outline { border: 1.5px solid #9abff1; color: #2c74e0; background: white; }
 
-    .info-item { margin-bottom: 14px; }
-    .info-label { font-size: 13px; color: #8e8e93; margin-bottom: 4px; }
-    .info-value { font-size: 16px; display:flex; justify-content:space-between; align-items:center; }
-    .copy-icon { width:20px; height:20px; cursor:pointer; opacity:0.6; }
+    .btn img {
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+    }
 
+    /* 🔹 стили модального окна */
     .modal {
-      display: none;
+      display: none; /* по умолчанию скрыто */
       position: fixed;
-      z-index: 1000;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      justify-content: flex-end;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%; /* половина экрана */
+      background: #fff;
+      border-radius: 15px 15px 0 0;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
+      padding: 20px;
     }
-    .modal.show { display: flex; }
-    .modal-content {
-      background:#fff;
-      border-radius:20px 20px 0 0;
-      padding:20px;
-      width:100%;
-      max-width:500px;
-      margin:0 auto;
-      box-shadow:0 -4px 20px rgba(0,0,0,0.2);
-      transform: translateY(100%);
-      transition: transform 0.3s ease-out;
+
+    .modal.active {
+      display: block;
     }
-    .modal.show .modal-content { transform: translateY(0); }
-    .close {
-      position:absolute;
-      right:15px;
-      top:10px;
-      font-size:28px;
-      cursor:pointer;
-      color:#aaa;
+
+    .modal-header {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .close-btn {
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="back-arrow" onclick="window.history.back()">←</div>
-    Удостоверение личности
-  </header>
 
-  <div class="tabs">
-    <div class="tab-selector" id="selector"></div>
-    <div class="tab active" onclick="showTab('doc')">Документ</div>
-    <div class="tab" onclick="showTab('info')">Реквизиты</div>
-  </div>
+  <h1>Документ</h1>
+  <h2>Реквизиты</h2>
 
-  <!-- Документ -->
-  <div id="doc" class="content">
-    <div id="uploadSection">
-      <div class="photo-container" id="photoContainer">
-        <img src="" alt="Документ" class="photo" id="documentPhoto" />
-      </div>
-      <input type="file" id="uploadPhoto" accept="image/*">
+  <button class="btn" onclick="openModal()">
+    Открыть окно 
+    <img src="icon.png" alt="→">
+  </button>
+
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      Всплывающее окно
+      <span class="close-btn" onclick="closeModal()">×</span>
     </div>
-    <div id="docButtons" style="display:none;">
-      <a href="#" class="btn btn-primary" onclick="openModal()">Предъявить документ</a>
-      <a href="#" class="btn btn-outline">Отправить документ</a>
-    </div>
-  </div>
-
-  <!-- Реквизиты -->
-  <div id="info" class="content" style="display: none;">
-    <form id="infoForm">
-      <div class="info-item"><div class="info-label">ФИО</div><input type="text" id="fio"></div>
-      <div class="info-item"><div class="info-label">ИИН</div><input type="text" id="iin"></div>
-      <div class="info-item"><div class="info-label">Дата рождения</div><input type="date" id="dob"></div>
-      <div class="info-item"><div class="info-label">Номер документа</div><input type="text" id="docnum"></div>
-      <div class="info-item"><div class="info-label">Дата выдачи</div><input type="date" id="issued"></div>
-      <div class="info-item"><div class="info-label">Срок действия</div><input type="date" id="expiry"></div>
-      <a href="#" class="btn btn-outline" onclick="finalize(); return false;">Сохранить</a>
-    </form>
-    <div id="finalInfo" style="display:none;"></div>
-  </div>
-
-  <!-- Модалка -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">×</span>
-      <div style="text-align:left; font-weight:600; font-size:18px; margin-bottom:20px;">Удостоверение личности</div>
-      <div style="text-align:center; font-size:14px; margin-bottom:20px;">Покажите QR-код сотруднику</div>
-      <div style="text-align:center; margin-bottom:15px;">
-        <img src="QR.png" alt="QR Code" style="width:150px; height:150px; border-radius:10px;">
-      </div>
-      <div style="text-align:center; font-size:14px; margin-bottom:10px;">или скажите код</div>
-      <div style="text-align:center; font-weight:bold; font-size:26px; letter-spacing:2px;">803558</div>
-    </div>
+    <p>Здесь можно добавить реквизиты или другие данные.</p>
   </div>
 
   <script>
-    function showTab(id) {
-      document.getElementById('doc').style.display = id === 'doc' ? 'block' : 'none';
-      document.getElementById('info').style.display = id === 'info' ? 'block' : 'none';
-      const selector = document.getElementById('selector');
-      selector.style.transform = id === 'doc' ? 'translateX(0%)' : 'translateX(100%)';
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      document.querySelector(`.tab[onclick="showTab('${id}')"]`).classList.add('active');
+    function openModal() {
+      document.getElementById('modal').classList.add('active');
     }
-
-    const upload = document.getElementById("uploadPhoto");
-    const docPhoto = document.getElementById("documentPhoto");
-    upload.addEventListener("change", function() {
-      const file = this.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = e => {
-          docPhoto.src = e.target.result;
-          document.getElementById("docButtons").style.display = "block";
-          upload.style.display = "none";
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    function formatDate(input) {
-      if (!input) return "";
-      const [year, month, day] = input.split("-");
-      return `${day}.${month}.${year}`;
-    }
-
-    function finalize() {
-      const fio = document.getElementById("fio").value;
-      const iin = document.getElementById("iin").value;
-      const dob = formatDate(document.getElementById("dob").value);
-      const docnum = document.getElementById("docnum").value;
-      const issued = formatDate(document.getElementById("issued").value);
-      const expiry = formatDate(document.getElementById("expiry").value);
-
-      if (!fio || !iin || !dob || !docnum || !issued || !expiry || !docPhoto.src) {
-        alert("Заполните все поля и загрузите фото документа!");
-        return;
-      }
-
-      document.getElementById("infoForm").style.display = "none";
-      const final = document.getElementById("finalInfo");
-      final.style.display = "block";
-      final.innerHTML = `
-        <div class="info-item"><div class="info-label">ФИО</div><div class="info-value">${fio}</div></div>
-        <div class="info-item"><div class="info-label">ИИН</div><div class="info-value">${iin}</div></div>
-        <div class="info-item"><div class="info-label">Дата рождения</div><div class="info-value">${dob}</div></div>
-        <div class="info-item"><div class="info-label">Номер документа</div><div class="info-value">${docnum}</div></div>
-        <div class="info-item"><div class="info-label">Дата выдачи</div><div class="info-value">${issued}</div></div>
-        <div class="info-item"><div class="info-label">Срок действия</div><div class="info-value">${expiry}</div></div>
-        <a href="#" class="btn btn-outline">Отправить реквизиты</a>
-      `;
-    }
-
-    function openModal() { document.getElementById("modal").classList.add("show"); }
-    function closeModal() { document.getElementById("modal").classList.remove("show"); }
-    window.onclick = function(event) {
-      const modal = document.getElementById("modal");
-      if (event.target === modal) { closeModal(); }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
     }
   </script>
 </body>
 </html>
-
